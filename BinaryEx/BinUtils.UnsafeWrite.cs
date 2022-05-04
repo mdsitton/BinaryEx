@@ -133,5 +133,13 @@ namespace BinaryEx
             return (int)count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static int WriteBytes(byte* buff, int offset, ReadOnlySpan<byte> input)
+        {
+            Span<byte> outSpan = new Span<byte>(buff + offset, input.Length);
+            input.CopyTo(outSpan);
+            return input.Length;
+        }
+
     }
 }

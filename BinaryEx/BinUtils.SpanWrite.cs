@@ -223,5 +223,13 @@ namespace BinaryEx
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WriteBytes(this Span<byte> buff, int offset, ReadOnlySpan<byte> input)
+        {
+            Debug.Assert(buff.Length >= offset + input.Length);
+
+            input.CopyTo(buff.Slice(offset));
+            return input.Length;
+        }
     }
 }

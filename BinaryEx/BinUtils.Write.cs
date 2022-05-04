@@ -150,5 +150,14 @@ namespace BinaryEx
             return (int)count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WriteBytes(this byte[] buff, int offset, ReadOnlySpan<byte> data)
+        {
+            Debug.Assert(buff.Length >= offset + data.Length);
+            Span<byte> outSpan = new Span<byte>(buff, offset, buff.Length);
+            data.CopyTo(outSpan);
+            return data.Length;
+        }
+
     }
 }

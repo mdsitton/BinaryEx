@@ -139,5 +139,11 @@ namespace BinaryEx
             offset += WriteBytes(data, offset, input, count);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteBytes(this byte[] buff, ref int offset, ReadOnlySpan<byte> data)
+        {
+            offset += WriteBytes(buff, offset, data);
+        }
+
     }
 }

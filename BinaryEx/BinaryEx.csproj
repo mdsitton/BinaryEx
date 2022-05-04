@@ -1,12 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyName>BinaryEx</AssemblyName>
+    <PackageId>BinaryEx</PackageId>
+    
+    <Description>Fast C# Extension functions for reading or writing binary data.</Description>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>Matthew Sitton</Authors>
+    <Company>Matthew Sitton</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/mdsitton/BinaryEx</RepositoryUrl>
+    <GitRepositoryRemoteName>public</GitRepositoryRemoteName>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.7.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

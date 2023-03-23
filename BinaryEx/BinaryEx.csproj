@@ -6,14 +6,29 @@
     <AssemblyName>BinaryEx</AssemblyName>
     <PackageId>BinaryEx</PackageId>
     
-    <Description>Fast C# Extension functions for reading or writing binary data.</Description>
+    <Description>Fast C# Extension framework for writing or reading binary data to/from multiple sources.</Description>
     <PackageVersion>0.1.0</PackageVersion>
     <Authors>Matthew Sitton</Authors>
-    <Company>Matthew Sitton</Company>
+    <Company></Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/mdsitton/BinaryEx</RepositoryUrl>
     <GitRepositoryRemoteName>public</GitRepositoryRemoteName>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/mdsitton/BinaryEx/tree/master</PackageProjectUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\images\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />

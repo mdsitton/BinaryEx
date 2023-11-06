@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace BinaryEx
 {
-    public static partial class BinStream
+    public static partial class BinaryExStream
     {
         [ThreadStatic] static byte[] scratchData;
 

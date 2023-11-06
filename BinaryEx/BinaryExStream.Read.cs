@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace BinaryEx
 {
-    public static partial class BinStream
+    public static partial class BinaryExStream
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt32 ReadUInt24LE(this Stream data)

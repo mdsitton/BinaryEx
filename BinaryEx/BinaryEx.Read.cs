@@ -146,7 +146,7 @@ namespace BinaryEx
         {
             Debug.Assert(buff.Length >= offset + count);
             Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], (uint)count);
-            return (int)count;
+            return count;
         }
 
         public static int ReadCountLE<T>(this byte[] buff, int offset, T[] output, int count) where T : unmanaged

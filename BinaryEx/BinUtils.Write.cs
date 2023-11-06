@@ -143,19 +143,18 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WriteBytes(this byte[] buff, int offset, byte[] input, UInt32 count)
+        public static int WriteBytes(this byte[] buff, int offset, byte[] input, int count)
         {
-            Debug.Assert(buff.Length >= offset + count);
-            Unsafe.CopyBlockUnaligned(ref buff[offset], ref input[0], count);
-            return (int)count;
+            Debug.Assert(buff.Length >= offset + count && count >= 0);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref input[0], (uint)count);
+            return count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WriteBytes(this byte[] buff, int offset, ReadOnlySpan<byte> data)
         {
             Debug.Assert(buff.Length >= offset + data.Length);
-            Span<byte> outSpan = new Span<byte>(buff, offset, buff.Length);
-            data.CopyTo(outSpan);
+            data.CopyTo(buff.AsSpan(offset));
             return data.Length;
         }
 

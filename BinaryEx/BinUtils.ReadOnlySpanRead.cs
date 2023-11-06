@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace BinaryEx
 {
@@ -10,222 +11,157 @@ namespace BinaryEx
     {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static UInt32 ReadUInt24LE(this ReadOnlySpan<byte> buff, int offset)
+        public static UInt32 ReadUInt24LE(this ReadOnlySpan<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + 3);
+            UInt32 val = 0;
+
+            Unsafe.CopyBlockUnaligned(ref Unsafe.As<UInt32, byte>(ref val), ref buff[offset], 3);
+            return val;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt32 ReadUInt24BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + 3);
 
-            fixed (byte* bp = buff)
+            UInt32 val = 0;
+            unsafe
             {
-                return ReadUInt24LE(bp, offset);
+                byte* dst = (byte*)Unsafe.AsPointer(ref val) + 1;
+                byte* start = (byte*)Unsafe.AsPointer(ref buff[offset]);
+
+                Unsafe.CopyBlockUnaligned(dst, start, 3);
             }
+            return SwapEndianess(val);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static UInt32 ReadUInt24BE(this ReadOnlySpan<byte> buff, int offset)
+        public static Int32 ReadInt24LE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + 3);
-
-            fixed (byte* bp = buff)
-            {
-                return ReadUInt24BE(bp, offset);
-            }
+            Int32 val = (Int32)ReadUInt24LE(buff, offset);
+            return val - (val >> 23 << 24);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static Int32 ReadInt24LE(this ReadOnlySpan<byte> buff, int offset)
+        public static Int32 ReadInt24BE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + 3);
-
-            fixed (byte* bp = buff)
-            {
-                return ReadInt24LE(bp, offset);
-            }
+            Int32 val = (Int32)ReadUInt24BE(buff, offset);
+            return val - (val >> 23 << 24);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static Int32 ReadInt24BE(this ReadOnlySpan<byte> buff, int offset)
+        public static Int64 ReadInt64LE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + 3);
-
-            fixed (byte* bp = buff)
-            {
-                return ReadInt24BE(bp, offset);
-            }
+            return (Int64)ReadUInt64LE(buff, offset);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static Int64 ReadInt64LE(this ReadOnlySpan<byte> buff, int offset)
+        public static Int64 ReadInt64BE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<Int64>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadInt64LE(bp, offset);
-            }
+            return (Int64)ReadUInt64BE(buff, offset);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static Int64 ReadInt64BE(this ReadOnlySpan<byte> buff, int offset)
+        public static Int32 ReadInt32LE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<Int64>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadInt64BE(bp, offset);
-            }
+            return (Int32)ReadUInt32LE(buff, offset);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static Int32 ReadInt32LE(this ReadOnlySpan<byte> buff, int offset)
+        public static Int32 ReadInt32BE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<Int32>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadInt32LE(bp, offset);
-            }
+            return (Int32)ReadUInt32BE(buff, offset);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static Int32 ReadInt32BE(this ReadOnlySpan<byte> buff, int offset)
+        public static Int16 ReadInt16LE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<Int32>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadInt32BE(bp, offset);
-            }
+            return (Int16)ReadUInt16LE(buff, offset);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static Int16 ReadInt16LE(this ReadOnlySpan<byte> buff, int offset)
+        public static Int16 ReadInt16BE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<Int16>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadInt16LE(bp, offset);
-            }
+            return (Int16)ReadUInt16BE(buff, offset);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static Int16 ReadInt16BE(this ReadOnlySpan<byte> buff, int offset)
+        public static sbyte ReadSByte(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<Int16>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadInt16BE(bp, offset);
-            }
+            Debug.Assert(buff.Length >= Unsafe.SizeOf<byte>());
+            return (sbyte)buff[offset];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static sbyte ReadSByte(this ReadOnlySpan<byte> buff, int offset)
-        {
-            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<sbyte>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadSByte(bp, offset);
-            };
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static UInt64 ReadUInt64LE(this ReadOnlySpan<byte> buff, int offset)
+        public static UInt64 ReadUInt64LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadUInt64LE(bp, offset);
-            };
+            ;
+            return Unsafe.As<byte, UInt64>(ref MemoryMarshal.GetReference(buff.Slice(offset)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static UInt64 ReadUInt64BE(this ReadOnlySpan<byte> buff, int offset)
+        public static UInt64 ReadUInt64BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadUInt64BE(bp, offset);
-            };
+            return SwapEndianess(Unsafe.As<byte, UInt64>(ref buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static UInt32 ReadUInt32LE(this ReadOnlySpan<byte> buff, int offset)
+        public static UInt32 ReadUInt32LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadUInt32LE(bp, offset);
-            };
+            return Unsafe.As<byte, UInt32>(ref buff[offset]);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static UInt32 ReadUInt32BE(this ReadOnlySpan<byte> buff, int offset)
+        public static UInt32 ReadUInt32BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadUInt32LE(bp, offset);
-            };
+            return SwapEndianess(Unsafe.As<byte, UInt32>(ref buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static UInt16 ReadUInt16LE(this ReadOnlySpan<byte> buff, int offset)
+        public static UInt16 ReadUInt16LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadUInt16LE(bp, offset);
-            };
+            return Unsafe.As<byte, UInt16>(ref buff[offset]);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static UInt16 ReadUInt16BE(this ReadOnlySpan<byte> buff, int offset)
+        public static UInt16 ReadUInt16BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadUInt16BE(bp, offset);
-            };
+            return SwapEndianess(Unsafe.As<byte, UInt16>(ref buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static byte ReadByte(this ReadOnlySpan<byte> buff, int offset)
+        public static byte ReadByte(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<byte>());
-
-            fixed (byte* bp = buff)
-            {
-                return ReadByte(bp, offset);
-            };
+            return buff[offset];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static int ReadBytes(this ReadOnlySpan<byte> buff, int offset, byte[] output, UInt32 count)
+        public static int ReadBytes(this ReadOnlySpan<byte> buff, int offset, byte[] output, UInt32 count)
         {
             Debug.Assert(buff.Length >= offset + count);
-
-            fixed (byte* bp = buff)
-            {
-                return ReadBytes(bp, offset, output, count);
-            };
+            Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], count);
+            return (int)count;
         }
 
-        public unsafe static int ReadCountLE<T>(this ReadOnlySpan<byte> buff, int offset, T[] output, UInt32 count) where T : unmanaged
+        public static int ReadCountLE<T>(this ReadOnlySpan<byte> buff, int offset, T[] output, UInt32 count) where T : unmanaged
         {
-            Debug.Assert(buff.Length >= offset + (Unsafe.SizeOf<T>() * count));
-
-            fixed (byte* bp = buff)
+            int outputByteSize = Unsafe.SizeOf<T>() * (int)count;
+            Debug.Assert(buff.Length >= offset + outputByteSize);
+            unsafe
             {
-                return ReadCountLE(bp, offset, output, count);
-            };
+                byte* outStart = (byte*)Unsafe.AsPointer<T>(ref output[0]);
+
+                Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref buff[offset], (uint)outputByteSize);
+                return outputByteSize;
+            }
         }
     }
 }

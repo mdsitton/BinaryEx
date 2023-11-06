@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace BinaryEx
 {
-    public static partial class BinUtils
+    public static partial class BinaryEx
     {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -145,6 +145,7 @@ namespace BinaryEx
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WriteBytes(this Span<byte> buff, int offset, byte[] input, int count)
         {
+            Debug.Assert(count < 0);
             Debug.Assert(buff.Length >= offset + count && count >= 0);
             Unsafe.CopyBlockUnaligned(ref buff[offset], ref input[0], (uint)count);
             return count;

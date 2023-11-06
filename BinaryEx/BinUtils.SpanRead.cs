@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace BinaryEx
 {
-    public static partial class BinUtils
+    public static partial class BinaryEx
     {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -142,16 +142,17 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ReadBytes(this Span<byte> buff, int offset, byte[] output, UInt32 count)
+        public static int ReadBytes(this Span<byte> buff, int offset, byte[] output, int count)
         {
+            Debug.Assert(count < 0);
             Debug.Assert(buff.Length >= offset + count);
-            Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], count);
+            Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], (uint)count);
             return (int)count;
         }
 
-        public static int ReadCountLE<T>(this Span<byte> buff, int offset, T[] output, UInt32 count) where T : unmanaged
+        public static int ReadCountLE<T>(this Span<byte> buff, int offset, T[] output, int count) where T : unmanaged
         {
-            int outputByteSize = Unsafe.SizeOf<T>() * (int)count;
+            int outputByteSize = Unsafe.SizeOf<T>() * count;
             Debug.Assert(buff.Length >= offset + outputByteSize);
             unsafe
             {

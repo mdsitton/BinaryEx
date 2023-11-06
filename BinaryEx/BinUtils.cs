@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace BinaryEx
 {
-    public static partial class BinUtils
+    public static partial class BinaryEx
     {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace BinaryEx
 {
-    public static partial class BinUtils
+    public static partial class BinaryEx
     {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -16,7 +16,7 @@ namespace BinaryEx
             Debug.Assert(buff.Length >= offset + 3);
             UInt32 val = 0;
 
-            Unsafe.CopyBlockUnaligned(ref Unsafe.As<UInt32, byte>(ref val), ref buff[offset], 3);
+            Unsafe.CopyBlockUnaligned(ref Unsafe.As<UInt32, byte>(ref val), ref MemoryMarshal.GetReference(buff.Slice(offset)), 3);
             return val;
         }
 
@@ -29,7 +29,7 @@ namespace BinaryEx
             unsafe
             {
                 byte* dst = (byte*)Unsafe.AsPointer(ref val) + 1;
-                byte* start = (byte*)Unsafe.AsPointer(ref buff[offset]);
+                byte* start = (byte*)Unsafe.AsPointer(ref MemoryMarshal.GetReference(buff.Slice(offset)));
 
                 Unsafe.CopyBlockUnaligned(dst, start, 3);
             }
@@ -97,7 +97,6 @@ namespace BinaryEx
         public static UInt64 ReadUInt64LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-            ;
             return Unsafe.As<byte, UInt64>(ref MemoryMarshal.GetReference(buff.Slice(offset)));
         }
 
@@ -105,35 +104,35 @@ namespace BinaryEx
         public static UInt64 ReadUInt64BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-            return SwapEndianess(Unsafe.As<byte, UInt64>(ref buff[offset]));
+            return SwapEndianess(Unsafe.As<byte, UInt64>(ref MemoryMarshal.GetReference(buff.Slice(offset))));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt32 ReadUInt32LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-            return Unsafe.As<byte, UInt32>(ref buff[offset]);
+            return Unsafe.As<byte, UInt32>(ref MemoryMarshal.GetReference(buff.Slice(offset)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt32 ReadUInt32BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-            return SwapEndianess(Unsafe.As<byte, UInt32>(ref buff[offset]));
+            return SwapEndianess(Unsafe.As<byte, UInt32>(ref MemoryMarshal.GetReference(buff.Slice(offset))));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt16 ReadUInt16LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-            return Unsafe.As<byte, UInt16>(ref buff[offset]);
+            return Unsafe.As<byte, UInt16>(ref MemoryMarshal.GetReference(buff.Slice(offset)));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt16 ReadUInt16BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-            return SwapEndianess(Unsafe.As<byte, UInt16>(ref buff[offset]));
+            return SwapEndianess(Unsafe.As<byte, UInt16>(ref MemoryMarshal.GetReference(buff.Slice(offset))));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -144,22 +143,24 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int ReadBytes(this ReadOnlySpan<byte> buff, int offset, byte[] output, UInt32 count)
+        public static int ReadBytes(this ReadOnlySpan<byte> buff, int offset, byte[] output, int count)
         {
+            Debug.Assert(count < 0);
             Debug.Assert(buff.Length >= offset + count);
-            Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], count);
+            Unsafe.CopyBlockUnaligned(ref output[0], ref MemoryMarshal.GetReference(buff.Slice(offset)), (uint)count);
             return (int)count;
         }
 
-        public static int ReadCountLE<T>(this ReadOnlySpan<byte> buff, int offset, T[] output, UInt32 count) where T : unmanaged
+        public static int ReadCountLE<T>(this ReadOnlySpan<byte> buff, int offset, T[] output, int count) where T : unmanaged
         {
-            int outputByteSize = Unsafe.SizeOf<T>() * (int)count;
+            Debug.Assert(count < 0);
+            int outputByteSize = Unsafe.SizeOf<T>() * count;
             Debug.Assert(buff.Length >= offset + outputByteSize);
             unsafe
             {
                 byte* outStart = (byte*)Unsafe.AsPointer<T>(ref output[0]);
 
-                Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref buff[offset], (uint)outputByteSize);
+                Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref MemoryMarshal.GetReference(buff.Slice(offset)), (uint)outputByteSize);
                 return outputByteSize;
             }
         }

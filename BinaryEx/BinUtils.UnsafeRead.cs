@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace BinaryEx
 {
-    public static partial class BinUtils
+    public static partial class BinaryEx
     {
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -130,22 +130,24 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static int ReadBytes(byte* buff, int offset, byte[] output, UInt32 count)
+        public unsafe static int ReadBytes(byte* buff, int offset, byte[] output, int count)
         {
-            Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], count);
+            Debug.Assert(count < 0);
+            Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], (uint)count);
             return (int)count;
         }
 
-        public unsafe static int ReadCountLE<T>(byte* buff, int offset, T[] output, UInt32 count) where T : unmanaged
+        public unsafe static int ReadCountLE<T>(byte* buff, int offset, T[] output, int count) where T : unmanaged
         {
+            Debug.Assert(count < 0);
             unsafe
             {
-                uint outputByteSize = (uint)Unsafe.SizeOf<T>() * count;
+                int outputByteSize = Unsafe.SizeOf<T>() * count;
 
                 Debug.Assert(outputByteSize >= count);
                 byte* outStart = (byte*)Unsafe.AsPointer<T>(ref output[0]);
 
-                Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref buff[offset], outputByteSize);
+                Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref buff[offset], (uint)outputByteSize);
                 return (int)outputByteSize;
             }
         }

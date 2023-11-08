@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace BinaryEx
 {
@@ -199,6 +200,13 @@ namespace BinaryEx
             data.Read(scratch, 0, 1);
 
             return scratch.ReadByte(0);
+        }
+
+        public static int ReadCountLE<T>(this Stream data, Span<T> output) where T : unmanaged
+        {
+            Debug.Assert(data.CanRead);
+            var bytes = MemoryMarshal.AsBytes(output);
+            return data.Read(bytes);
         }
     }
 }

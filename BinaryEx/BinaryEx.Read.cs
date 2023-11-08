@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace BinaryEx
 {
@@ -160,6 +161,14 @@ namespace BinaryEx
                 Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref buff[offset], (uint)outputByteSize);
                 return outputByteSize;
             }
+        }
+
+        public static int ReadCountLE<T>(this byte[] buff, int offset, Span<T> output) where T : unmanaged
+        {
+            var bytes = MemoryMarshal.AsBytes(output);
+            Debug.Assert(buff.Length >= offset + bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref bytes[0], ref buff[offset], (uint)bytes.Length);
+            return output.Length;
         }
     }
 }

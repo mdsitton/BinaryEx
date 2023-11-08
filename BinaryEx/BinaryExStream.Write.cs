@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace BinaryEx
 {
@@ -210,6 +211,13 @@ namespace BinaryEx
         {
             Debug.Assert(data.CanWrite);
             data.WriteByte(value);
+        }
+
+        public static void WriteCountLE<T>(this Stream data, Span<T> output) where T : unmanaged
+        {
+            Debug.Assert(data.CanWrite);
+            var bytes = MemoryMarshal.AsBytes(output);
+            data.Write(bytes);
         }
     }
 }

@@ -161,5 +161,10 @@ namespace BinaryEx
         {
             offset += BinaryEx.ReadCountLE(buff, offset, output, count);
         }
+
+        public static void ReadCountLE<T>(this Span<byte> buff, ref int offset, Span<T> output) where T : unmanaged
+        {
+            offset += BinaryEx.ReadCountLE(buff, offset, output);
+        }
     }
 }

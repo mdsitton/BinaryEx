@@ -168,7 +168,7 @@ namespace BinaryEx
             var bytes = MemoryMarshal.AsBytes(output);
             Debug.Assert(buff.Length >= offset + bytes.Length);
             Unsafe.CopyBlockUnaligned(ref bytes[0], ref buff[offset], (uint)bytes.Length);
-            return output.Length;
+            return bytes.Length;
         }
     }
 }

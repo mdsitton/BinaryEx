@@ -139,7 +139,7 @@ namespace BinaryEx
 
             data.Read(scratch, 0, 8);
 
-            return scratch.ReadUInt64LE(0);
+            return scratch.ReadUInt64BE(0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

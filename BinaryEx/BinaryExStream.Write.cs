@@ -31,7 +31,7 @@ namespace BinaryEx
             byte[] scratch = EnsureScratch();
 
             scratch.WriteInt24BE(0, value);
-            data.Write(scratch, 0, 4);
+            data.Write(scratch, 0, 3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -42,7 +42,7 @@ namespace BinaryEx
             byte[] scratch = EnsureScratch();
 
             scratch.WriteInt24LE(0, value);
-            data.Write(scratch, 0, 4);
+            data.Write(scratch, 0, 3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -126,7 +126,7 @@ namespace BinaryEx
             byte[] scratch = EnsureScratch();
 
             scratch.WriteUInt24BE(0, value);
-            data.Write(scratch, 0, 4);
+            data.Write(scratch, 0, 3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -137,7 +137,7 @@ namespace BinaryEx
             byte[] scratch = EnsureScratch();
 
             scratch.WriteUInt24LE(0, value);
-            data.Write(scratch, 0, 4);
+            data.Write(scratch, 0, 3);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

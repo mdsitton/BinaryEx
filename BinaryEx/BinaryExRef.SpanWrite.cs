@@ -129,6 +129,34 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteFloatBE(this Span<byte> buff, ref int offset, float value)
+        {
+            BinaryEx.WriteFloatBE(buff, offset, value);
+            offset += 4;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteFloatLE(this Span<byte> buff, ref int offset, float value)
+        {
+            BinaryEx.WriteFloatLE(buff, offset, value);
+            offset += 4;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteDoubleBE(this Span<byte> buff, ref int offset, double value)
+        {
+            BinaryEx.WriteDoubleBE(buff, offset, value);
+            offset += 8;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteDoubleLE(this Span<byte> buff, ref int offset, double value)
+        {
+            BinaryEx.WriteDoubleLE(buff, offset, value);
+            offset += 8;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteByte(this Span<byte> buff, ref int offset, byte value)
         {
             BinaryEx.WriteByte(buff, offset, value);

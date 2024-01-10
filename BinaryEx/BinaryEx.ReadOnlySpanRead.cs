@@ -105,42 +105,72 @@ namespace BinaryEx
         public static UInt64 ReadUInt64LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-            return Unsafe.As<byte, UInt64>(ref MemoryMarshal.GetReference(buff.Slice(offset)));
+            return Unsafe.As<byte, UInt64>(ref Unsafe.AsRef(buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt64 ReadUInt64BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-            return SwapEndianess(Unsafe.As<byte, UInt64>(ref MemoryMarshal.GetReference(buff.Slice(offset))));
+            return SwapEndianess(Unsafe.As<byte, UInt64>(ref Unsafe.AsRef(buff[offset])));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt32 ReadUInt32LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-            return Unsafe.As<byte, UInt32>(ref MemoryMarshal.GetReference(buff.Slice(offset)));
+            return Unsafe.As<byte, UInt32>(ref Unsafe.AsRef(buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt32 ReadUInt32BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-            return SwapEndianess(Unsafe.As<byte, UInt32>(ref MemoryMarshal.GetReference(buff.Slice(offset))));
+            return SwapEndianess(Unsafe.As<byte, UInt32>(ref Unsafe.AsRef(buff[offset])));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt16 ReadUInt16LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-            return Unsafe.As<byte, UInt16>(ref MemoryMarshal.GetReference(buff.Slice(offset)));
+            return Unsafe.As<byte, UInt16>(ref Unsafe.AsRef(buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt16 ReadUInt16BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-            return SwapEndianess(Unsafe.As<byte, UInt16>(ref MemoryMarshal.GetReference(buff.Slice(offset))));
+            return SwapEndianess(Unsafe.As<byte, UInt16>(ref Unsafe.AsRef(buff[offset])));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReadFloatLE(this ReadOnlySpan<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
+            return Unsafe.ReadUnaligned<float>(ref Unsafe.AsRef(buff[offset]));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReadFloatBE(this ReadOnlySpan<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
+            var data = SwapEndianess(Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(buff[offset])));
+            return Unsafe.As<UInt32, float>(ref data);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReadDoubleLE(this ReadOnlySpan<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
+            return Unsafe.ReadUnaligned<double>(ref Unsafe.AsRef(buff[offset]));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReadDoubleBE(this ReadOnlySpan<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
+            var data = SwapEndianess(Unsafe.ReadUnaligned<UInt64>(ref Unsafe.AsRef(buff[offset])));
+            return Unsafe.As<UInt64, double>(ref data);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -214,6 +214,55 @@ namespace BinaryEx
             return scratch.ReadUInt16BE(0);
         }
 
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReadFloatLE(this Stream data)
+        {
+            Debug.Assert(data.CanRead);
+
+            byte[] scratch = EnsureScratch();
+
+            data.Read(scratch, 0, 4);
+
+            return scratch.ReadFloatLE(0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReadFloatBE(this Stream data)
+        {
+            Debug.Assert(data.CanRead);
+
+            byte[] scratch = EnsureScratch();
+
+            data.Read(scratch, 0, 4);
+
+            return scratch.ReadFloatBE(0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReadDoubleLE(this Stream data)
+        {
+            Debug.Assert(data.CanRead);
+
+            byte[] scratch = EnsureScratch();
+
+            data.Read(scratch, 0, 8);
+
+            return scratch.ReadDoubleLE(0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReadDoubleBE(this Stream data)
+        {
+            Debug.Assert(data.CanRead);
+
+            byte[] scratch = EnsureScratch();
+
+            data.Read(scratch, 0, 8);
+
+            return scratch.ReadDoubleBE(0);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte ReadByte(this Stream data)
         {

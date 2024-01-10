@@ -146,6 +146,38 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReadFloatLE(this byte[] buff, ref int offset)
+        {
+            float val = BinaryEx.ReadFloatLE(buff, offset);
+            offset += 4;
+            return val;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReadFloatBE(this byte[] buff, ref int offset)
+        {
+            float val = BinaryEx.ReadFloatBE(buff, offset);
+            offset += 4;
+            return val;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReadDoubleLE(this byte[] buff, ref int offset)
+        {
+            double val = BinaryEx.ReadDoubleLE(buff, offset);
+            offset += 8;
+            return val;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReadDoubleBE(this byte[] buff, ref int offset)
+        {
+            double val = BinaryEx.ReadDoubleBE(buff, offset);
+            offset += 8;
+            return val;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte ReadByte(this byte[] buff, ref int offset)
         {
             return buff[offset++];

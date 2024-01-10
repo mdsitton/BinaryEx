@@ -123,6 +123,32 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void WriteFloatLE(byte* buff, int offset, float value)
+        {
+            Unsafe.WriteUnaligned<float>(ref buff[offset], value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void WriteFloatBE(byte* buff, int offset, float value)
+        {
+            var swapped = SwapEndianess(Unsafe.As<float, UInt32>(ref value));
+            Unsafe.WriteUnaligned<UInt32>(ref buff[offset], swapped);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void WriteDoubleLE(byte* buff, int offset, double value)
+        {
+            Unsafe.WriteUnaligned<double>(ref buff[offset], value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void WriteDoubleBE(byte* buff, int offset, double value)
+        {
+            var swapped = SwapEndianess(Unsafe.As<double, UInt64>(ref value));
+            Unsafe.WriteUnaligned<UInt64>(ref buff[offset], swapped);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static void WriteByte(byte* buff, int offset, byte value)
         {
             Unsafe.WriteUnaligned<byte>(ref buff[offset], value);

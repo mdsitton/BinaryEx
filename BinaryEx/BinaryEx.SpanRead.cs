@@ -144,6 +144,36 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReadFloatLE(this Span<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
+            return Unsafe.ReadUnaligned<float>(ref buff[offset]);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ReadFloatBE(this Span<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
+            var data = SwapEndianess(Unsafe.ReadUnaligned<UInt32>(ref buff[offset]));
+            return Unsafe.As<UInt32, float>(ref data);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReadDoubleLE(this Span<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
+            return Unsafe.ReadUnaligned<double>(ref buff[offset]);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ReadDoubleBE(this Span<byte> buff, int offset)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
+            var data = SwapEndianess(Unsafe.ReadUnaligned<UInt64>(ref buff[offset]));
+            return Unsafe.As<UInt64, double>(ref data);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte ReadByte(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<byte>());

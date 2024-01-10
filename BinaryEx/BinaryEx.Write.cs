@@ -131,6 +131,35 @@ namespace BinaryEx
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
             Unsafe.WriteUnaligned<UInt16>(ref buff[offset], value);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteFloatLE(this byte[] buff, int offset, float value)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
+            Unsafe.WriteUnaligned<float>(ref buff[offset], value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteFloatBE(this byte[] buff, int offset, float value)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
+            var swapped = SwapEndianess(Unsafe.As<float, UInt32>(ref value));
+            Unsafe.WriteUnaligned<UInt32>(ref buff[offset], swapped);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteDoubleLE(this byte[] buff, int offset, double value)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
+            Unsafe.WriteUnaligned<double>(ref buff[offset], value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteDoubleBE(this byte[] buff, int offset, double value)
+        {
+            Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
+            var swapped = SwapEndianess(Unsafe.As<double, UInt64>(ref value));
+            Unsafe.WriteUnaligned<UInt64>(ref buff[offset], swapped);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteByte(this byte[] buff, int offset, byte value)

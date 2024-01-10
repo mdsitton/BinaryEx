@@ -207,6 +207,50 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteFloatBE(this Stream data, float value)
+        {
+            Debug.Assert(data.CanWrite);
+
+            byte[] scratch = EnsureScratch();
+
+            scratch.WriteFloatBE(0, value);
+            data.Write(scratch, 0, 4);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteFloatLE(this Stream data, float value)
+        {
+            Debug.Assert(data.CanWrite);
+
+            byte[] scratch = EnsureScratch();
+
+            scratch.WriteFloatLE(0, value);
+            data.Write(scratch, 0, 4);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteDoubleBE(this Stream data, double value)
+        {
+            Debug.Assert(data.CanWrite);
+
+            byte[] scratch = EnsureScratch();
+
+            scratch.WriteDoubleBE(0, value);
+            data.Write(scratch, 0, 8);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteDoubleLE(this Stream data, double value)
+        {
+            Debug.Assert(data.CanWrite);
+
+            byte[] scratch = EnsureScratch();
+
+            scratch.WriteDoubleLE(0, value);
+            data.Write(scratch, 0, 8);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteByte(this Stream data, byte value)
         {
             Debug.Assert(data.CanWrite);

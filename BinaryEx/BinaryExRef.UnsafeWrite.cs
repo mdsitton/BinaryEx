@@ -144,5 +144,17 @@ namespace BinaryEx
         {
             offset += BinaryEx.WriteBytes(buff, offset, input);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void WriteCountLE<T>(byte* buff, ref int offset, T[] input, int count) where T : unmanaged
+        {
+            offset += BinaryEx.WriteCountLE(buff, offset, input, count);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void WriteCountLE<T>(byte* buff, ref int offset, ReadOnlySpan<T> input) where T : unmanaged
+        {
+            offset += BinaryEx.WriteCountLE(buff, offset, input);
+        }
     }
 }

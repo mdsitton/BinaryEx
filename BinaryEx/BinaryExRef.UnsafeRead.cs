@@ -157,9 +157,22 @@ namespace BinaryEx
             offset += BinaryEx.ReadBytes(buff, offset, output, count);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void ReadBytes(byte* buff, ref int offset, Span<byte> output)
+        {
+            offset += BinaryEx.ReadBytes(buff, offset, output);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static void ReadCountLE<T>(byte* buff, ref int offset, T[] output, int count) where T : unmanaged
         {
             offset += BinaryEx.ReadCountLE(buff, offset, output, count);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void ReadCountLE<T>(byte* buff, ref int offset, Span<T> output) where T : unmanaged
+        {
+            offset += BinaryEx.ReadCountLE(buff, offset, output);
         }
     }
 }

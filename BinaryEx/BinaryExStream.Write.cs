@@ -213,11 +213,23 @@ namespace BinaryEx
             data.WriteByte(value);
         }
 
-        public static void WriteCountLE<T>(this Stream data, Span<T> output) where T : unmanaged
+#if NETSTANDARD2_1_OR_GREATER
+        // only implemented for LE because we don't know what the layout of the struct/object is
+        // so there is no way to safely swap the endianness
+        public static void WriteCountLE<T>(this Stream data, ReadOnlySpan<T> input) where T : unmanaged
         {
             Debug.Assert(data.CanWrite);
-            var bytes = MemoryMarshal.AsBytes(output);
+            var bytes = MemoryMarshal.AsBytes(input);
             data.Write(bytes);
         }
+
+        public static void WriteCountLE<T>(this Stream data, T[] input, int count) where T : unmanaged
+        {
+            Debug.Assert(data.CanWrite);
+            Debug.Assert(count > 0);
+            var bytes = MemoryMarshal.AsBytes<T>(input);
+            data.Write(bytes);
+        }
+#endif
     }
 }

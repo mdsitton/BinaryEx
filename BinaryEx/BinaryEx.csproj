@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>netstandard2.1; netstandard2.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AssemblyName>BinaryEx</AssemblyName>
     <PackageId>BinaryEx</PackageId>
     
     <Description>Fast C# Extension framework for writing or reading binary data to/from multiple sources.</Description>
-    <PackageVersion>0.2.0</PackageVersion>
+    <PackageVersion>0.3.0</PackageVersion>
     <Authors>Matthew Sitton</Authors>
     <Company></Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -32,6 +32,10 @@
 
   <ItemGroup>
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
 
 </Project>

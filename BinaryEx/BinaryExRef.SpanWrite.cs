@@ -136,15 +136,27 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void WriteBytes(this Span<byte> data, ref int offset, byte[] input, int count)
+        public static void WriteBytes(this Span<byte> buff, ref int offset, byte[] input, int count)
         {
-            offset += BinaryEx.WriteBytes(data, offset, input, count);
+            offset += BinaryEx.WriteBytes(buff, offset, input, count);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void WriteBytes(this Span<byte> buff, ref int offset, ReadOnlySpan<byte> data)
+        public static void WriteBytes(this Span<byte> buff, ref int offset, ReadOnlySpan<byte> input)
         {
-            offset += BinaryEx.WriteBytes(buff, offset, data);
+            offset += BinaryEx.WriteBytes(buff, offset, input);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteCountLE<T>(this Span<byte> buff, ref int offset, T[] input, int count) where T : unmanaged
+        {
+            offset += BinaryEx.WriteCountLE(buff, offset, input, count);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteCountLE<T>(this Span<byte> buff, ref int offset, ReadOnlySpan<T> input) where T : unmanaged
+        {
+            offset += BinaryEx.WriteCountLE(buff, offset, input);
         }
 
     }

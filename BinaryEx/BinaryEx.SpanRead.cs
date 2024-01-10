@@ -145,25 +145,31 @@ namespace BinaryEx
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ReadBytes(this Span<byte> buff, int offset, byte[] output, int count)
         {
-            Debug.Assert(count < 0);
+            Debug.Assert(count > 0);
             Debug.Assert(buff.Length >= offset + count);
             Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], (uint)count);
-            return (int)count;
+            return count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ReadBytes(this Span<byte> buff, int offset, Span<byte> output)
+        {
+            Debug.Assert(buff.Length >= offset + output.Length);
+            Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], (uint)output.Length);
+            return output.Length;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ReadCountLE<T>(this Span<byte> buff, int offset, T[] output, int count) where T : unmanaged
         {
-            int outputByteSize = Unsafe.SizeOf<T>() * count;
-            Debug.Assert(buff.Length >= offset + outputByteSize);
-            unsafe
-            {
-                byte* outStart = (byte*)Unsafe.AsPointer<T>(ref output[0]);
-
-                Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref buff[offset], (uint)outputByteSize);
-                return outputByteSize;
-            }
+            var bytes = MemoryMarshal.AsBytes(output.AsSpan(0, count));
+            Debug.Assert(count > 0);
+            Debug.Assert(buff.Length >= offset + bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref bytes[0], ref buff[offset], (uint)bytes.Length);
+            return bytes.Length;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ReadCountLE<T>(this Span<byte> buff, int offset, Span<T> output) where T : unmanaged
         {
             var bytes = MemoryMarshal.AsBytes(output);

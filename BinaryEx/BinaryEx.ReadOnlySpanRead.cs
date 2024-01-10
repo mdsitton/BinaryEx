@@ -142,27 +142,43 @@ namespace BinaryEx
             return buff[offset];
         }
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ReadBytes(this ReadOnlySpan<byte> buff, int offset, byte[] output, int count)
         {
-            Debug.Assert(count < 0);
+            Debug.Assert(count > 0);
             Debug.Assert(buff.Length >= offset + count);
-            Unsafe.CopyBlockUnaligned(ref output[0], ref MemoryMarshal.GetReference(buff.Slice(offset)), (uint)count);
-            return (int)count;
+            Unsafe.CopyBlockUnaligned(ref output[0], ref Unsafe.AsRef(buff[offset]), (uint)count);
+            return count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ReadBytes(this ReadOnlySpan<byte> buff, int offset, Span<byte> output)
+        {
+            Debug.Assert(buff.Length >= offset + output.Length);
+            Unsafe.CopyBlockUnaligned(ref output[0], ref Unsafe.AsRef(buff[offset]), (uint)output.Length);
+            return output.Length;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int ReadCountLE<T>(this ReadOnlySpan<byte> buff, int offset, T[] output, int count) where T : unmanaged
         {
-            Debug.Assert(count < 0);
-            int outputByteSize = Unsafe.SizeOf<T>() * count;
-            Debug.Assert(buff.Length >= offset + outputByteSize);
-            unsafe
-            {
-                byte* outStart = (byte*)Unsafe.AsPointer<T>(ref output[0]);
+            var bytes = MemoryMarshal.AsBytes(output.AsSpan(0, count));
+            Debug.Assert(count > 0);
+            Debug.Assert(buff.Length >= offset + bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref bytes[0], ref Unsafe.AsRef(buff[offset]), (uint)bytes.Length);
+            return bytes.Length;
+        }
 
-                Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref MemoryMarshal.GetReference(buff.Slice(offset)), (uint)outputByteSize);
-                return outputByteSize;
-            }
+        // only implemented for LE because we don't know what the layout of the struct/objet is
+        // so there is no way to safely swap the endianness
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int ReadCountLE<T>(this ReadOnlySpan<byte> buff, int offset, Span<T> output) where T : unmanaged
+        {
+            var bytes = MemoryMarshal.AsBytes(output);
+            Debug.Assert(buff.Length >= offset + bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref bytes[0], ref Unsafe.AsRef(buff[offset]), (uint)bytes.Length);
+            return bytes.Length;
         }
     }
 }

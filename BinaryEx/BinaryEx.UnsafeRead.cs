@@ -132,24 +132,33 @@ namespace BinaryEx
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static int ReadBytes(byte* buff, int offset, byte[] output, int count)
         {
-            Debug.Assert(count < 0);
+            Debug.Assert(count > 0);
             Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], (uint)count);
-            return (int)count;
+            return count;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static int ReadBytes(byte* buff, int offset, Span<byte> output)
+        {
+            Unsafe.CopyBlockUnaligned(ref output[0], ref buff[offset], (uint)output.Length);
+            return output.Length;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static int ReadCountLE<T>(byte* buff, int offset, T[] output, int count) where T : unmanaged
         {
-            Debug.Assert(count < 0);
-            unsafe
-            {
-                int outputByteSize = Unsafe.SizeOf<T>() * count;
+            var bytes = MemoryMarshal.AsBytes(output.AsSpan(0, count));
+            Debug.Assert(count > 0);
+            Unsafe.CopyBlockUnaligned(ref bytes[0], ref buff[offset], (uint)bytes.Length);
+            return bytes.Length;
+        }
 
-                Debug.Assert(outputByteSize >= count);
-                byte* outStart = (byte*)Unsafe.AsPointer<T>(ref output[0]);
-
-                Unsafe.CopyBlockUnaligned(ref Unsafe.AsRef<byte>(outStart), ref buff[offset], (uint)outputByteSize);
-                return (int)outputByteSize;
-            }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static int ReadCountLE<T>(byte* buff, int offset, Span<T> output) where T : unmanaged
+        {
+            var bytes = MemoryMarshal.AsBytes(output);
+            Unsafe.CopyBlockUnaligned(ref bytes[0], ref buff[offset], (uint)bytes.Length);
+            return bytes.Length;
         }
     }
 }

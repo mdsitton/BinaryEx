@@ -226,11 +226,23 @@ namespace BinaryEx
             return scratch.ReadByte(0);
         }
 
+#if NETSTANDARD2_1_OR_GREATER
+
+        // only implemented for LE because we don't know what the layout of the struct/object is
+        // so there is no way to safely swap the endianness
         public static int ReadCountLE<T>(this Stream data, Span<T> output) where T : unmanaged
         {
             Debug.Assert(data.CanRead);
             var bytes = MemoryMarshal.AsBytes(output);
             return data.Read(bytes);
         }
+
+        public static int ReadCountLE<T>(this Stream data, T[] output, int count) where T : unmanaged
+        {
+            Debug.Assert(data.CanRead);
+            var bytes = MemoryMarshal.AsBytes(output.AsSpan(0, count));
+            return data.Read(bytes);
+        }
+#endif
     }
 }

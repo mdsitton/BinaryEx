@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace BinaryEx
 {
@@ -142,21 +143,41 @@ namespace BinaryEx
             Unsafe.WriteUnaligned<byte>(ref buff[offset], value);
         }
 
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int WriteBytes(this byte[] buff, int offset, byte[] input, int count)
         {
-            Debug.Assert(count < 0);
+            Debug.Assert(count > 0);
             Debug.Assert(buff.Length >= offset + count && count >= 0);
             Unsafe.CopyBlockUnaligned(ref buff[offset], ref input[0], (uint)count);
             return count;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int WriteBytes(this byte[] buff, int offset, ReadOnlySpan<byte> data)
+        public static int WriteBytes(this byte[] buff, int offset, ReadOnlySpan<byte> input)
         {
-            Debug.Assert(buff.Length >= offset + data.Length);
-            data.CopyTo(buff.AsSpan(offset));
-            return data.Length;
+            Debug.Assert(buff.Length >= offset + input.Length);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.AsRef(input[0]), (uint)input.Length);
+            return input.Length;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WriteCountLE<T>(this byte[] buff, int offset, T[] input, int count) where T : unmanaged
+        {
+            var bytes = MemoryMarshal.AsBytes(input.AsSpan(0, count));
+            Debug.Assert(count > 0);
+            Debug.Assert(buff.Length >= offset + bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref bytes[0], (uint)bytes.Length);
+            return bytes.Length;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int WriteCountLE<T>(this byte[] buff, int offset, ReadOnlySpan<T> input) where T : unmanaged
+        {
+            var bytes = MemoryMarshal.AsBytes(input);
+            Debug.Assert(buff.Length >= offset + bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.AsRef(bytes[0]), (uint)bytes.Length);
+            return bytes.Length;
         }
 
     }

@@ -152,19 +152,27 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ReadBytes(this byte[] data, ref int offset, byte[] output, int count)
+        public static void ReadBytes(this byte[] buff, ref int offset, byte[] output, int count)
         {
-            offset += BinaryEx.ReadBytes(data, offset, output, count);
+            offset += BinaryEx.ReadBytes(buff, offset, output, count);
         }
 
-        public static void ReadCountLE<T>(this byte[] data, ref int offset, T[] output, int count) where T : unmanaged
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ReadBytes(this byte[] buff, ref int offset, Span<byte> output)
         {
-            offset += BinaryEx.ReadCountLE(data, offset, output, count);
+            offset += BinaryEx.ReadBytes(buff, offset, output);
         }
 
-        public static void ReadCountLE<T>(this byte[] data, ref int offset, Span<T> output) where T : unmanaged
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ReadCountLE<T>(this byte[] buff, ref int offset, T[] output, int count) where T : unmanaged
         {
-            offset += BinaryEx.ReadCountLE(data, offset, output);
+            offset += BinaryEx.ReadCountLE(buff, offset, output, count);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void ReadCountLE<T>(this byte[] buff, ref int offset, Span<T> output) where T : unmanaged
+        {
+            offset += BinaryEx.ReadCountLE(buff, offset, output);
         }
     }
 }

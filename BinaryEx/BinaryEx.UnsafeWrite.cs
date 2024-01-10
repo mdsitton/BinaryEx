@@ -129,7 +129,7 @@ namespace BinaryEx
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static int WriteBytes(byte* buff, int offset, byte[] input, int count)
         {
-            Debug.Assert(count < 0);
+            Debug.Assert(count > 0);
             Unsafe.CopyBlockUnaligned(ref buff[offset], ref input[0], (uint)count);
             return count;
         }
@@ -137,10 +137,25 @@ namespace BinaryEx
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static int WriteBytes(byte* buff, int offset, ReadOnlySpan<byte> input)
         {
-            Span<byte> outSpan = new Span<byte>(buff + offset, input.Length);
-            input.CopyTo(outSpan);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.AsRef(input[0]), (uint)input.Length);
             return input.Length;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static int WriteCountLE<T>(byte* buff, int offset, T[] input, int count) where T : unmanaged
+        {
+            var bytes = MemoryMarshal.AsBytes(input.AsSpan(0, count));
+            Debug.Assert(count > 0);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref bytes[0], (uint)bytes.Length);
+            return bytes.Length;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static int WriteCountLE<T>(byte* buff, int offset, ReadOnlySpan<T> input) where T : unmanaged
+        {
+            var bytes = MemoryMarshal.AsBytes(input);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.AsRef(bytes[0]), (uint)bytes.Length);
+            return bytes.Length;
+        }
     }
 }

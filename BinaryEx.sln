@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryEx", "BinaryEx\BinaryEx.csproj", "{6A3A7204-EA35-41E4-8657-80F9374F2DBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinaryEx.Tests", "BinaryEx.Tests\BinaryEx.Tests.csproj", "{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{6A3A7204-EA35-41E4-8657-80F9374F2DBA}.Release|x64.Build.0 = Release|Any CPU
 		{6A3A7204-EA35-41E4-8657-80F9374F2DBA}.Release|x86.ActiveCfg = Release|Any CPU
 		{6A3A7204-EA35-41E4-8657-80F9374F2DBA}.Release|x86.Build.0 = Release|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Debug|x64.Build.0 = Debug|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Debug|x86.Build.0 = Debug|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Release|x64.ActiveCfg = Release|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Release|x64.Build.0 = Release|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Release|x86.ActiveCfg = Release|Any CPU
+		{4C5F221F-2988-42A2-9B5E-B8EC745B6E1B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

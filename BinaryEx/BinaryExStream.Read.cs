@@ -35,6 +35,30 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int32 ReadInt24LE(this Stream data)
+        {
+            Debug.Assert(data.CanRead);
+
+            byte[] scratch = EnsureScratch();
+
+            data.Read(scratch, 0, 3);
+
+            return scratch.ReadInt24LE(0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int32 ReadInt24BE(this Stream data)
+        {
+            Debug.Assert(data.CanRead);
+
+            byte[] scratch = EnsureScratch();
+
+            data.Read(scratch, 0, 3);
+
+            return scratch.ReadInt24BE(0);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Int64 ReadInt64LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -139,7 +163,7 @@ namespace BinaryEx
 
             data.Read(scratch, 0, 8);
 
-            return scratch.ReadUInt64LE(0);
+            return scratch.ReadUInt64BE(0);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

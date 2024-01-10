@@ -13,7 +13,7 @@ TODO: Implement support for IBufferWriter for writing, and ReadOnlySequence for 
 ## Usage instructions
 
 Here is a basic example of reading and writing to an array:
-```
+```cs
 using BinaryEx;
 
 byte[] array = new byte[128];

@@ -172,7 +172,7 @@ namespace BinaryEx
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double ReadDoubleBE(this Span<byte> buff, ref int offset)
         {
-            double val = BinaryEx.ReadFloatBE(buff, offset);
+            double val = BinaryEx.ReadDoubleBE(buff, offset);
             offset += 8;
             return val;
         }

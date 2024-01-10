@@ -97,29 +97,25 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void WriteUInt24BE(this byte[] buff, int offset, UInt32 value)
-        {
-
-            Debug.Assert(value <= 0xFFFFFF);
-            Debug.Assert(buff.Length >= offset + 3);
-
-            value = SwapEndianess(value);
-
-            unsafe
-            {
-                byte* src = (byte*)Unsafe.AsPointer(ref value) + 1;
-                byte* destStart = (byte*)Unsafe.AsPointer(ref buff[offset]);
-
-                Unsafe.CopyBlockUnaligned(destStart, src, 3);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteUInt24LE(this byte[] buff, int offset, UInt32 value)
         {
             Debug.Assert(value <= 0xFFFFFF);
             Debug.Assert(buff.Length >= offset + 3);
-            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.As<UInt32, byte>(ref value), 3);
+
+            buff[offset] = (byte)value;
+            buff[offset + 1] = (byte)(value >> 8);
+            buff[offset + 2] = (byte)(value >> 16);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void WriteUInt24BE(this byte[] buff, int offset, UInt32 value)
+        {
+            Debug.Assert(value <= 0xFFFFFF);
+            Debug.Assert(buff.Length >= offset + 3);
+
+            buff[offset] = (byte)(value >> 16);
+            buff[offset + 1] = (byte)(value >> 8);
+            buff[offset + 2] = (byte)value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

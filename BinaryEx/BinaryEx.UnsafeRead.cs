@@ -3,32 +3,22 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace BinaryEx
 {
     public static partial class BinaryEx
     {
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static UInt32 ReadUInt24LE(byte* buff, int offset)
         {
-            UInt32 val = 0;
-            Unsafe.CopyBlockUnaligned(ref Unsafe.As<UInt32, byte>(ref val), ref buff[offset], 3);
-            return val;
+            return buff[offset] | (UInt32)buff[offset + 1] << 8 | (UInt32)buff[offset + 2] << 16;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static UInt32 ReadUInt24BE(byte* buff, int offset)
         {
-            UInt32 val = 0;
-            unsafe
-            {
-                byte* dst = (byte*)Unsafe.AsPointer(ref val) + 1;
-                byte* start = (byte*)Unsafe.AsPointer(ref buff[offset]);
-
-                Unsafe.CopyBlockUnaligned(dst, start, 3);
-            }
-            return SwapEndianess(val);
+            return (UInt32)buff[offset] << 16 | (UInt32)buff[offset + 1] << 8 | buff[offset + 2];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

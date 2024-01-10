@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace BinaryEx
 {
@@ -90,22 +91,23 @@ namespace BinaryEx
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe static void WriteUInt24LE(byte* buff, int offset, UInt32 value)
+        {
+            Debug.Assert(value <= 0xFFFFFF);
+
+            buff[offset] = (byte)value;
+            buff[offset + 1] = (byte)(value >> 8);
+            buff[offset + 2] = (byte)(value >> 16);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe static void WriteUInt24BE(byte* buff, int offset, UInt32 value)
         {
             Debug.Assert(value <= 0xFFFFFF);
 
-            value = SwapEndianess(value);
-
-            byte* src = (byte*)Unsafe.AsPointer(ref value) + 1;
-            byte* destStart = buff + offset;
-
-            Unsafe.CopyBlockUnaligned(destStart, src, 3);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public unsafe static void WriteUInt24LE(byte* buff, int offset, UInt32 value)
-        {
-            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.As<UInt32, byte>(ref value), 3);
+            buff[offset] = (byte)(value >> 16);
+            buff[offset + 1] = (byte)(value >> 8);
+            buff[offset + 2] = (byte)value;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

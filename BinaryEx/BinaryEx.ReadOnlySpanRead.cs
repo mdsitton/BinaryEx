@@ -13,27 +13,35 @@ namespace BinaryEx
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt32 ReadUInt24LE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + 3);
-            UInt32 val = 0;
+            var remaining = buff.Length - offset;
+            Debug.Assert(remaining >= 3);
 
-            Unsafe.CopyBlockUnaligned(ref Unsafe.As<UInt32, byte>(ref val), ref MemoryMarshal.GetReference(buff.Slice(offset)), 3);
-            return val;
+            if (remaining >= 4)
+            {
+                UInt32 val = Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(buff[offset]));
+                return val & 0x00FFFFFF;
+            }
+            else
+            {
+                return buff[offset] | (UInt32)buff[offset + 1] << 8 | (UInt32)buff[offset + 2] << 16;
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt32 ReadUInt24BE(this ReadOnlySpan<byte> buff, int offset)
         {
-            Debug.Assert(buff.Length >= offset + 3);
+            var remaining = buff.Length - offset;
+            Debug.Assert(remaining >= 3);
 
-            UInt32 val = 0;
-            unsafe
+            if (remaining >= 4)
             {
-                byte* dst = (byte*)Unsafe.AsPointer(ref val) + 1;
-                byte* start = (byte*)Unsafe.AsPointer(ref MemoryMarshal.GetReference(buff.Slice(offset)));
-
-                Unsafe.CopyBlockUnaligned(dst, start, 3);
+                UInt32 val = Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(buff[offset]));
+                return SwapEndianess(val << 8);
             }
-            return SwapEndianess(val);
+            else
+            {
+                return (UInt32)buff[offset] << 16 | (UInt32)buff[offset + 1] << 8 | buff[offset + 2];
+            }
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

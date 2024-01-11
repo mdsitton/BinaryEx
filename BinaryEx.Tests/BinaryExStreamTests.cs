@@ -1,4 +1,5 @@
-
+// Copyright (c) 2019-2024 Matthew Sitton <matthewsitton@gmail.com>
+// MIT License - See LICENSE in the project root for license information.
 using System;
 using System.Collections.Generic;
 using System.IO;

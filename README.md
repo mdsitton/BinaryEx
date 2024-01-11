@@ -1,14 +1,29 @@
 # BinaryEx
-Fast C# Extension functions for reading or writing binary data.
+[![BinaryEx on NuGet](https://img.shields.io/nuget/v/BinaryEx)](https://www.nuget.org/packages/BinaryEx)
 
-Easy to use, fast performance, no or very little allocation parsing utilities.
+Fast C# Extension functions for reading and writing binary data. Easy to use, high performance, with no allocation!
 
-I have benchmarked these extensions extensively using both mono, and .net core to try and get the best performance possible from both runtimes.
+Combines the ease of use of streams with the performance of BinaryPrimatives, this library was originally built for high performance under unity but is very versitile in many other environments.
 
-I will update the readme with benchmarks between BinaryPrimatives, BitConverter, BinaryReader and BinaryEx once i put the library on nuget.
+Features:
+ - Extention method based apis makes it very easy to read or write data anywhere.
+ - Direct position indexing, or ref offset based apis to automatically keep track of the buffer offset!
+ - Directly write values to the following buffer types:
+   - byte[], Span<byte>, byte*, Stream
+- Directly read values from the following buffer types:
+   - byte[], Span<byte>, ReadOnlySpan<byte>, byte*, Stream
+- Serialize data using the following types:
+   - byte, sbyte, short, ushort, int, uint, long, ulong, float, double
+- Operate on data as either Big Endian, or Little Endian
 
-TODO: Implement support for IBufferWriter for writing, and ReadOnlySequence for reading
+Benchmarks between BinaryPrimatives, BitConverter, BinaryReader and BinaryEx coming soon.
 
+Planned Features:
+ - Support for IBufferWriter for writing, and ReadOnlySequence for reading
+ - Support for Memory
+ - Writing APIs for strings, UUID
+
+I have extensively benchmarked this library to try and get the best performance possible from all runtimes.
 
 ## Usage instructions
 
@@ -19,27 +34,16 @@ using BinaryEx;
 byte[] array = new byte[128];
 
 int pos = 0;
-// Write into arary 32 ints
+// Write 32 ints into the array in big endian byte order
 for (int i = 0; i < array.Length / sizeof(int); ++i)
 {
-	array.WriteInt32BE(i, ref pos);
+    array.WriteInt32BE(i, ref pos);
 }
 
+pos = 0;
 // Read the arrays back from the array
 for (int i = 0; i < array.Length / sizeof(int); ++i)
 {
-	int n = array.ReadInt32BE(ref pos);
+    int n = array.ReadInt32BE(ref pos);
 }
 ```
-
-The library adds extension functions into the following types:
-
-byte[] arrays
-Span<byte>
-ReadOnlySpan<byte>
-byte* pointers
-Stream any stream object
-
-Then there are 2 main types of apis:
-Ref based apis which will keep tabs on the current write offset for you
-Explicit position based apis that just take in a position to write to.

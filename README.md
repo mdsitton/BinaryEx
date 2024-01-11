@@ -30,19 +30,19 @@ I have extensively benchmarked this library to try and get the best performance 
 Here is a basic example of reading and writing to an array:
 ```cs
 using BinaryEx;
-
-byte[] array = new byte[128];
+int numberCount = 32;
+byte[] array = new byte[numberCount * sizeof(int)];
 
 int pos = 0;
 // Write 32 ints into the array in big endian byte order
-for (int i = 0; i < array.Length / sizeof(int); ++i)
+for (int i = 0; i < numberCount; ++i)
 {
     array.WriteInt32BE(i, ref pos);
 }
 
 pos = 0;
 // Read the arrays back from the array
-for (int i = 0; i < array.Length / sizeof(int); ++i)
+for (int i = 0; i < numberCount; ++i)
 {
     int n = array.ReadInt32BE(ref pos);
 }

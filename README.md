@@ -9,11 +9,11 @@ Features:
  - Extention method based apis makes it very easy to read or write data anywhere.
  - Direct position indexing, or ref offset based apis to automatically keep track of the buffer offset!
  - Directly write values to the following buffer types:
-   - byte[], Span<byte>, byte*, Stream
+   - `byte[]`, `Span<byte>`, `byte*`, `Stream`
 - Directly read values from the following buffer types:
-   - byte[], Span<byte>, ReadOnlySpan<byte>, byte*, Stream
+   - `byte[]`, `Span<byte>`, `ReadOnlySpan<byte>`, `byte*`, `Stream`
 - Serialize data using the following types:
-   - byte, sbyte, short, ushort, int, uint, long, ulong, float, double
+   - `byte`, `sbyte`, `short`, `ushort`, `int`, `uint`, `long`, `ulong`, `float`, `double`
 - Operate on data as either Big Endian, or Little Endian
 
 Benchmarks between BinaryPrimatives, BitConverter, BinaryReader and BinaryEx coming soon.

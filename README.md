@@ -18,9 +18,9 @@ Features:
 
 Benchmarks between BinaryPrimatives, BitConverter, BinaryReader and BinaryEx coming soon.
 
-Planned Features:
+Currently planned features for upcoming releases:
  - Support for IBufferWriter for writing, and ReadOnlySequence for reading
- - Support for Memory
+ - Support for Memory<T> ? (need to work out the performance overhead over just using spans if it would be worth it)
  - Writing APIs for strings, UUID
 
 I have extensively benchmarked this library to try and get the best performance possible from all runtimes.

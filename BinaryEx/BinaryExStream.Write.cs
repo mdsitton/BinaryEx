@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -12,7 +13,7 @@ namespace BinaryEx
     {
         [ThreadStatic] static byte[] scratchData;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         private static byte[] EnsureScratch()
         {
             if (scratchData == null)
@@ -23,7 +24,7 @@ namespace BinaryEx
             return scratchData;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt24BE(this Stream data, Int32 value)
         {
             Debug.Assert(data.CanWrite);
@@ -34,7 +35,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 3);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt24LE(this Stream data, Int32 value)
         {
             Debug.Assert(data.CanWrite);
@@ -45,7 +46,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 3);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt64BE(this Stream data, Int64 value)
         {
             Debug.Assert(data.CanWrite);
@@ -56,7 +57,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 8);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt64LE(this Stream data, Int64 value)
         {
             Debug.Assert(data.CanWrite);
@@ -67,7 +68,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 8);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt32BE(this Stream data, Int32 value)
         {
             Debug.Assert(data.CanWrite);
@@ -78,7 +79,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 4);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt32LE(this Stream data, Int32 value)
         {
             Debug.Assert(data.CanWrite);
@@ -89,7 +90,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 4);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt16BE(this Stream data, Int16 value)
         {
             Debug.Assert(data.CanWrite);
@@ -100,7 +101,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 2);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt16LE(this Stream data, Int16 value)
         {
             Debug.Assert(data.CanWrite);
@@ -111,14 +112,14 @@ namespace BinaryEx
             data.Write(scratch, 0, 2);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteSByte(this Stream data, sbyte value)
         {
             Debug.Assert(data.CanWrite);
             data.WriteByte((byte)value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt24BE(this Stream data, UInt32 value)
         {
             Debug.Assert(data.CanWrite);
@@ -129,7 +130,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 3);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt24LE(this Stream data, UInt32 value)
         {
             Debug.Assert(data.CanWrite);
@@ -140,7 +141,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 3);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt64BE(this Stream data, UInt64 value)
         {
             Debug.Assert(data.CanWrite);
@@ -151,7 +152,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 8);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt64LE(this Stream data, UInt64 value)
         {
             Debug.Assert(data.CanWrite);
@@ -162,7 +163,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 8);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt32BE(this Stream data, UInt32 value)
         {
             Debug.Assert(data.CanWrite);
@@ -173,7 +174,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 4);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt32LE(this Stream data, UInt32 value)
         {
             Debug.Assert(data.CanWrite);
@@ -184,7 +185,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 4);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt16BE(this Stream data, UInt16 value)
         {
             Debug.Assert(data.CanWrite);
@@ -195,7 +196,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 2);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt16LE(this Stream data, UInt16 value)
         {
             Debug.Assert(data.CanWrite);
@@ -206,7 +207,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 2);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteFloatBE(this Stream data, float value)
         {
             Debug.Assert(data.CanWrite);
@@ -217,7 +218,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 4);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteFloatLE(this Stream data, float value)
         {
             Debug.Assert(data.CanWrite);
@@ -228,7 +229,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 4);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteDoubleBE(this Stream data, double value)
         {
             Debug.Assert(data.CanWrite);
@@ -239,7 +240,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 8);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteDoubleLE(this Stream data, double value)
         {
             Debug.Assert(data.CanWrite);
@@ -250,7 +251,7 @@ namespace BinaryEx
             data.Write(scratch, 0, 8);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteByte(this Stream data, byte value)
         {
             Debug.Assert(data.CanWrite);

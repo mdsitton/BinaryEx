@@ -2,6 +2,7 @@
 // MIT License - See LICENSE in the project root for license information.
 using System;
 using System.Diagnostics;
+using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -10,7 +11,7 @@ namespace BinaryEx
     public static partial class BinaryEx
     {
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt24LE(this Span<byte> buff, int offset)
         {
             var remaining = buff.Length - offset;
@@ -27,7 +28,7 @@ namespace BinaryEx
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt24BE(this Span<byte> buff, int offset)
         {
             var remaining = buff.Length - offset;
@@ -36,7 +37,7 @@ namespace BinaryEx
             if (remaining >= 4)
             {
                 UInt32 val = Unsafe.ReadUnaligned<UInt32>(ref buff[offset]);
-                return SwapEndianess(val << 8);
+                return Endian.SwapEndianess(val << 8);
             }
             else
             {
@@ -44,143 +45,143 @@ namespace BinaryEx
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int32 ReadInt24LE(this Span<byte> buff, int offset)
         {
             Int32 val = (Int32)ReadUInt24LE(buff, offset);
             return val - (val >> 23 << 24);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int32 ReadInt24BE(this Span<byte> buff, int offset)
         {
             Int32 val = (Int32)ReadUInt24BE(buff, offset);
             return val - (val >> 23 << 24);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int64 ReadInt64LE(this Span<byte> buff, int offset)
         {
             return (Int64)ReadUInt64LE(buff, offset);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int64 ReadInt64BE(this Span<byte> buff, int offset)
         {
             return (Int64)ReadUInt64BE(buff, offset);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int32 ReadInt32LE(this Span<byte> buff, int offset)
         {
             return (Int32)ReadUInt32LE(buff, offset);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int32 ReadInt32BE(this Span<byte> buff, int offset)
         {
             return (Int32)ReadUInt32BE(buff, offset);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int16 ReadInt16LE(this Span<byte> buff, int offset)
         {
             return (Int16)ReadUInt16LE(buff, offset);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int16 ReadInt16BE(this Span<byte> buff, int offset)
         {
             return (Int16)ReadUInt16BE(buff, offset);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static sbyte ReadSByte(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= Unsafe.SizeOf<byte>());
             return (sbyte)buff[offset];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt64 ReadUInt64LE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
             return Unsafe.As<byte, UInt64>(ref buff[offset]);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt64 ReadUInt64BE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-            return SwapEndianess(Unsafe.As<byte, UInt64>(ref buff[offset]));
+            return Endian.SwapEndianess(Unsafe.As<byte, UInt64>(ref buff[offset]));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt32LE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
             return Unsafe.As<byte, UInt32>(ref buff[offset]);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt32BE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-            return SwapEndianess(Unsafe.As<byte, UInt32>(ref buff[offset]));
+            return Endian.SwapEndianess(Unsafe.As<byte, UInt32>(ref buff[offset]));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt16 ReadUInt16LE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
             return Unsafe.As<byte, UInt16>(ref buff[offset]);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt16 ReadUInt16BE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-            return SwapEndianess(Unsafe.As<byte, UInt16>(ref buff[offset]));
+            return Endian.SwapEndianess(Unsafe.As<byte, UInt16>(ref buff[offset]));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static float ReadFloatLE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
             return Unsafe.ReadUnaligned<float>(ref buff[offset]);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static float ReadFloatBE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
-            var data = SwapEndianess(Unsafe.ReadUnaligned<UInt32>(ref buff[offset]));
+            var data = Endian.SwapEndianess(Unsafe.ReadUnaligned<UInt32>(ref buff[offset]));
             return Unsafe.As<UInt32, float>(ref data);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static double ReadDoubleLE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
             return Unsafe.ReadUnaligned<double>(ref buff[offset]);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static double ReadDoubleBE(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
-            var data = SwapEndianess(Unsafe.ReadUnaligned<UInt64>(ref buff[offset]));
+            var data = Endian.SwapEndianess(Unsafe.ReadUnaligned<UInt64>(ref buff[offset]));
             return Unsafe.As<UInt64, double>(ref data);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static byte ReadByte(this Span<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<byte>());
             return buff[offset];
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static int ReadBytes(this Span<byte> buff, int offset, byte[] output, int count)
         {
             Debug.Assert(count > 0);
@@ -189,7 +190,7 @@ namespace BinaryEx
             return count;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static int ReadBytes(this Span<byte> buff, int offset, Span<byte> output)
         {
             Debug.Assert(buff.Length >= offset + output.Length);
@@ -197,7 +198,7 @@ namespace BinaryEx
             return output.Length;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static int ReadCountLE<T>(this Span<byte> buff, int offset, T[] output, int count) where T : unmanaged
         {
             var bytes = MemoryMarshal.AsBytes(output.AsSpan(0, count));
@@ -207,7 +208,7 @@ namespace BinaryEx
             return bytes.Length;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static int ReadCountLE<T>(this Span<byte> buff, int offset, Span<T> output) where T : unmanaged
         {
             var bytes = MemoryMarshal.AsBytes(output);

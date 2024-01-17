@@ -2,6 +2,7 @@
 // MIT License - See LICENSE in the project root for license information.
 using System;
 using System.Diagnostics;
+using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -10,31 +11,31 @@ namespace BinaryEx
     public static partial class BinaryEx
     {
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt64BE(this byte[] buff, int offset, Int64 value)
         {
             WriteUInt64BE(buff, offset, (UInt64)value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt64LE(this byte[] buff, int offset, Int64 value)
         {
             WriteUInt64LE(buff, offset, (UInt64)value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt32BE(this byte[] buff, int offset, Int32 value)
         {
             WriteUInt32BE(buff, offset, (UInt32)value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt32LE(this byte[] buff, int offset, Int32 value)
         {
             WriteUInt32LE(buff, offset, (UInt32)value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt24BE(this byte[] buff, int offset, Int32 value)
         {
             Debug.Assert(value <= 0x7FFFFF && value >= -0x7FFFFF);
@@ -42,7 +43,7 @@ namespace BinaryEx
             WriteUInt24BE(buff, offset, (UInt32)(value & 0xFFFFFF));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt24LE(this byte[] buff, int offset, Int32 value)
         {
             Debug.Assert(value <= 0x7FFFFF && value >= -0x7FFFFF);
@@ -50,53 +51,53 @@ namespace BinaryEx
             WriteUInt24LE(buff, offset, (UInt32)(value & 0xFFFFFF));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt16BE(this byte[] buff, int offset, Int16 value)
         {
             WriteUInt16BE(buff, offset, (UInt16)value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteInt16LE(this byte[] buff, int offset, Int16 value)
         {
             WriteUInt16LE(buff, offset, (UInt16)value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteSByte(this byte[] buff, int offset, sbyte value)
         {
             WriteByte(buff, offset, (byte)value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt64BE(this byte[] buff, int offset, UInt64 value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-            Unsafe.WriteUnaligned<UInt64>(ref buff[offset], SwapEndianess(value));
+            Unsafe.WriteUnaligned<UInt64>(ref buff[offset], Endian.SwapEndianess(value));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt64LE(this byte[] buff, int offset, UInt64 value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
             Unsafe.WriteUnaligned<UInt64>(ref buff[offset], value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt32BE(this byte[] buff, int offset, UInt32 value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-            Unsafe.WriteUnaligned<UInt32>(ref buff[offset], SwapEndianess(value));
+            Unsafe.WriteUnaligned<UInt32>(ref buff[offset], Endian.SwapEndianess(value));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt32LE(this byte[] buff, int offset, UInt32 value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
             Unsafe.WriteUnaligned<UInt32>(ref buff[offset], value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt24LE(this byte[] buff, int offset, UInt32 value)
         {
             Debug.Assert(value <= 0xFFFFFF);
@@ -107,7 +108,7 @@ namespace BinaryEx
             buff[offset + 2] = (byte)(value >> 16);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt24BE(this byte[] buff, int offset, UInt32 value)
         {
             Debug.Assert(value <= 0xFFFFFF);
@@ -118,50 +119,50 @@ namespace BinaryEx
             buff[offset + 2] = (byte)value;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt16BE(this byte[] buff, int offset, UInt16 value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-            Unsafe.WriteUnaligned<UInt16>(ref buff[offset], SwapEndianess(value));
+            Unsafe.WriteUnaligned<UInt16>(ref buff[offset], Endian.SwapEndianess(value));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteUInt16LE(this byte[] buff, int offset, UInt16 value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
             Unsafe.WriteUnaligned<UInt16>(ref buff[offset], value);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteFloatLE(this byte[] buff, int offset, float value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
             Unsafe.WriteUnaligned<float>(ref buff[offset], value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteFloatBE(this byte[] buff, int offset, float value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
-            var swapped = SwapEndianess(Unsafe.As<float, UInt32>(ref value));
+            var swapped = Endian.SwapEndianess(Unsafe.As<float, UInt32>(ref value));
             Unsafe.WriteUnaligned<UInt32>(ref buff[offset], swapped);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteDoubleLE(this byte[] buff, int offset, double value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
             Unsafe.WriteUnaligned<double>(ref buff[offset], value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteDoubleBE(this byte[] buff, int offset, double value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
-            var swapped = SwapEndianess(Unsafe.As<double, UInt64>(ref value));
+            var swapped = Endian.SwapEndianess(Unsafe.As<double, UInt64>(ref value));
             Unsafe.WriteUnaligned<UInt64>(ref buff[offset], swapped);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static void WriteByte(this byte[] buff, int offset, byte value)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<byte>());
@@ -169,7 +170,7 @@ namespace BinaryEx
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static int WriteBytes(this byte[] buff, int offset, byte[] input, int count)
         {
             Debug.Assert(count > 0);
@@ -178,7 +179,7 @@ namespace BinaryEx
             return count;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static int WriteBytes(this byte[] buff, int offset, ReadOnlySpan<byte> input)
         {
             Debug.Assert(buff.Length >= offset + input.Length);
@@ -186,7 +187,7 @@ namespace BinaryEx
             return input.Length;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static int WriteCountLE<T>(this byte[] buff, int offset, T[] input, int count) where T : unmanaged
         {
             var bytes = MemoryMarshal.AsBytes(input.AsSpan(0, count));
@@ -196,7 +197,7 @@ namespace BinaryEx
             return bytes.Length;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static int WriteCountLE<T>(this byte[] buff, int offset, ReadOnlySpan<T> input) where T : unmanaged
         {
             var bytes = MemoryMarshal.AsBytes(input);

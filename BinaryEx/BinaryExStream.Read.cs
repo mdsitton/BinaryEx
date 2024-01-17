@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -10,7 +11,7 @@ namespace BinaryEx
 {
     public static partial class BinaryExStream
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt24LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -22,7 +23,7 @@ namespace BinaryEx
             return scratch.ReadUInt24LE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt24BE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -34,7 +35,7 @@ namespace BinaryEx
             return scratch.ReadUInt24BE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int32 ReadInt24LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -46,7 +47,7 @@ namespace BinaryEx
             return scratch.ReadInt24LE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int32 ReadInt24BE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -58,7 +59,7 @@ namespace BinaryEx
             return scratch.ReadInt24BE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int64 ReadInt64LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -70,7 +71,7 @@ namespace BinaryEx
             return scratch.ReadInt64LE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int64 ReadInt64BE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -82,7 +83,7 @@ namespace BinaryEx
             return scratch.ReadInt64BE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int32 ReadInt32LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -94,7 +95,7 @@ namespace BinaryEx
             return scratch.ReadInt32LE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int32 ReadInt32BE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -106,7 +107,7 @@ namespace BinaryEx
             return scratch.ReadInt32BE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int16 ReadInt16LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -118,7 +119,7 @@ namespace BinaryEx
             return scratch.ReadInt16LE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static Int16 ReadInt16BE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -130,7 +131,7 @@ namespace BinaryEx
             return scratch.ReadInt16BE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static sbyte ReadSByte(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -142,7 +143,7 @@ namespace BinaryEx
             return scratch.ReadSByte(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt64 ReadUInt64LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -154,7 +155,7 @@ namespace BinaryEx
             return scratch.ReadUInt64LE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt64 ReadUInt64BE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -166,7 +167,7 @@ namespace BinaryEx
             return scratch.ReadUInt64BE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt32LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -178,7 +179,7 @@ namespace BinaryEx
             return scratch.ReadUInt32LE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt32BE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -190,7 +191,7 @@ namespace BinaryEx
             return scratch.ReadUInt32BE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt16 ReadUInt16LE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -202,7 +203,7 @@ namespace BinaryEx
             return scratch.ReadUInt16LE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt16 ReadUInt16BE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -215,7 +216,7 @@ namespace BinaryEx
         }
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static float ReadFloatLE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -227,7 +228,7 @@ namespace BinaryEx
             return scratch.ReadFloatLE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static float ReadFloatBE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -239,7 +240,7 @@ namespace BinaryEx
             return scratch.ReadFloatBE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static double ReadDoubleLE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -251,7 +252,7 @@ namespace BinaryEx
             return scratch.ReadDoubleLE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static double ReadDoubleBE(this Stream data)
         {
             Debug.Assert(data.CanRead);
@@ -263,7 +264,7 @@ namespace BinaryEx
             return scratch.ReadDoubleBE(0);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static byte ReadByte(this Stream data)
         {
             Debug.Assert(data.CanRead);

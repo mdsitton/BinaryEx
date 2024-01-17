@@ -7,7 +7,7 @@
     <PackageId>BinaryEx</PackageId>
     
     <Description>Fast C# Extension framework for writing or reading binary data to/from multiple sources.</Description>
-    <PackageVersion>0.3.0</PackageVersion>
+    <PackageVersion>0.4.0</PackageVersion>
     <Authors>Matthew Sitton</Authors>
     <Company></Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

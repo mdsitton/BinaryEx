@@ -184,7 +184,7 @@ namespace BinaryEx
         public static int WriteBytes(this Span<byte> buff, int offset, ReadOnlySpan<byte> input)
         {
             Debug.Assert(buff.Length >= offset + input.Length);
-            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.AsRef(input[0]), (uint)input.Length);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.AsRef(in input[0]), (uint)input.Length);
             return input.Length;
         }
 
@@ -203,7 +203,7 @@ namespace BinaryEx
         {
             var bytes = MemoryMarshal.AsBytes(input);
             Debug.Assert(buff.Length >= offset + bytes.Length);
-            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.AsRef(bytes[0]), (uint)bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref buff[offset], ref Unsafe.AsRef(in bytes[0]), (uint)bytes.Length);
             return bytes.Length;
         }
     }

@@ -19,7 +19,7 @@ namespace BinaryEx
 
             if (remaining >= 4)
             {
-                UInt32 val = Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(buff[offset]));
+                UInt32 val = Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(in buff[offset]));
                 return val & 0x00FFFFFF;
             }
             else
@@ -36,7 +36,7 @@ namespace BinaryEx
 
             if (remaining >= 4)
             {
-                UInt32 val = Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(buff[offset]));
+                UInt32 val = Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(in buff[offset]));
                 return Endian.SwapEndianess(val << 8);
             }
             else
@@ -106,56 +106,56 @@ namespace BinaryEx
         public static UInt64 ReadUInt64LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-            return Unsafe.As<byte, UInt64>(ref Unsafe.AsRef(buff[offset]));
+            return Unsafe.As<byte, UInt64>(ref Unsafe.AsRef(in buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt64 ReadUInt64BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt64>());
-            return Endian.SwapEndianess(Unsafe.As<byte, UInt64>(ref Unsafe.AsRef(buff[offset])));
+            return Endian.SwapEndianess(Unsafe.As<byte, UInt64>(ref Unsafe.AsRef(in buff[offset])));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt32LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-            return Unsafe.As<byte, UInt32>(ref Unsafe.AsRef(buff[offset]));
+            return Unsafe.As<byte, UInt32>(ref Unsafe.AsRef(in buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt32 ReadUInt32BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt32>());
-            return Endian.SwapEndianess(Unsafe.As<byte, UInt32>(ref Unsafe.AsRef(buff[offset])));
+            return Endian.SwapEndianess(Unsafe.As<byte, UInt32>(ref Unsafe.AsRef(in buff[offset])));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt16 ReadUInt16LE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-            return Unsafe.As<byte, UInt16>(ref Unsafe.AsRef(buff[offset]));
+            return Unsafe.As<byte, UInt16>(ref Unsafe.AsRef(in buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static UInt16 ReadUInt16BE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<UInt16>());
-            return Endian.SwapEndianess(Unsafe.As<byte, UInt16>(ref Unsafe.AsRef(buff[offset])));
+            return Endian.SwapEndianess(Unsafe.As<byte, UInt16>(ref Unsafe.AsRef(in buff[offset])));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static float ReadFloatLE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
-            return Unsafe.ReadUnaligned<float>(ref Unsafe.AsRef(buff[offset]));
+            return Unsafe.ReadUnaligned<float>(ref Unsafe.AsRef(in buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static float ReadFloatBE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<float>());
-            var data = Endian.SwapEndianess(Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(buff[offset])));
+            var data = Endian.SwapEndianess(Unsafe.ReadUnaligned<UInt32>(ref Unsafe.AsRef(in buff[offset])));
             return Unsafe.As<UInt32, float>(ref data);
         }
 
@@ -163,14 +163,14 @@ namespace BinaryEx
         public static double ReadDoubleLE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
-            return Unsafe.ReadUnaligned<double>(ref Unsafe.AsRef(buff[offset]));
+            return Unsafe.ReadUnaligned<double>(ref Unsafe.AsRef(in buff[offset]));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining), TargetedPatchingOptOut("Inline across assemplies")]
         public static double ReadDoubleBE(this ReadOnlySpan<byte> buff, int offset)
         {
             Debug.Assert(buff.Length >= offset + Unsafe.SizeOf<double>());
-            var data = Endian.SwapEndianess(Unsafe.ReadUnaligned<UInt64>(ref Unsafe.AsRef(buff[offset])));
+            var data = Endian.SwapEndianess(Unsafe.ReadUnaligned<UInt64>(ref Unsafe.AsRef(in buff[offset])));
             return Unsafe.As<UInt64, double>(ref data);
         }
 
@@ -187,7 +187,7 @@ namespace BinaryEx
         {
             Debug.Assert(count > 0);
             Debug.Assert(buff.Length >= offset + count);
-            Unsafe.CopyBlockUnaligned(ref output[0], ref Unsafe.AsRef(buff[offset]), (uint)count);
+            Unsafe.CopyBlockUnaligned(ref output[0], ref Unsafe.AsRef(in buff[offset]), (uint)count);
             return count;
         }
 
@@ -195,7 +195,7 @@ namespace BinaryEx
         public static int ReadBytes(this ReadOnlySpan<byte> buff, int offset, Span<byte> output)
         {
             Debug.Assert(buff.Length >= offset + output.Length);
-            Unsafe.CopyBlockUnaligned(ref output[0], ref Unsafe.AsRef(buff[offset]), (uint)output.Length);
+            Unsafe.CopyBlockUnaligned(ref output[0], ref Unsafe.AsRef(in buff[offset]), (uint)output.Length);
             return output.Length;
         }
 
@@ -205,7 +205,7 @@ namespace BinaryEx
             var bytes = MemoryMarshal.AsBytes(output.AsSpan(0, count));
             Debug.Assert(count > 0);
             Debug.Assert(buff.Length >= offset + bytes.Length);
-            Unsafe.CopyBlockUnaligned(ref bytes[0], ref Unsafe.AsRef(buff[offset]), (uint)bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref bytes[0], ref Unsafe.AsRef(in buff[offset]), (uint)bytes.Length);
             return bytes.Length;
         }
 
@@ -216,7 +216,7 @@ namespace BinaryEx
         {
             var bytes = MemoryMarshal.AsBytes(output);
             Debug.Assert(buff.Length >= offset + bytes.Length);
-            Unsafe.CopyBlockUnaligned(ref bytes[0], ref Unsafe.AsRef(buff[offset]), (uint)bytes.Length);
+            Unsafe.CopyBlockUnaligned(ref bytes[0], ref Unsafe.AsRef(in buff[offset]), (uint)bytes.Length);
             return bytes.Length;
         }
     }
